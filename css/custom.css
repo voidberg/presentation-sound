@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+
+@font-face {
+  font-family: 'BadaboomBB';
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/badaboombb.woff2') format('woff2'),
+    url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/badaboombb.woff') format('woff');
+  font-style: normal;
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'SequentialistBB';
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_1_0.woff2') format('woff2'),
+    url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_0_0.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'SequentialistBB';
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_0_0.woff2') format('woff2'),
+    url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_0_0.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+}
+
+section {
+  font-family: 'Varela Round', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Varela Round', sans-serif !important;
+  text-transform: inherit !important;
+}
+
+ul ul {
+  font-size: 0.75em !important;
+}
+
+minor {
+  color: grey;
+}
+
+minor:before {
+  content: '(';
+}
+
+minor:after {
+  content: ')';
+}
+
+.left-align {
+  text-align: left;
+}
+
+.footnote {
+  width: 100%;
+  text-align: left;
+  color: grey;
+}
+
+.reveal h1.comic-header {
+  font-family: BadaboomBB !important;
+  font-size: 140px;
+  font-weight: bold;
+  transform: rotate(-12deg);
+  /*margin-left: -1000px;*/
+  -webkit-text-stroke: 4px black; 
+  text-stroke: 4px black;
+  color: white;
+}
+
+.reveal h2.comic-subheader {
+  font-family: BadaboomBB !important;
+  font-size: 100px;
+  font-weight: bold;
+  transform: rotate(-12deg);
+  /*margin-right: -1000px;*/
+  margin-top: -00px;
+  -webkit-text-stroke: 4px black; 
+  text-stroke: 4px black;
+  color: white;
+}
+
+.comic-quote {
+  min-height: 10vh;
+  min-width: 150vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-family: SequentialistBB, cursive;
+  font-size: 2.5vw; 
+  margin: 0;
+  right: 0;
+  bottom: 0;
+  bottom: 0;
+  position: relative;
+}
+
+div.bubble { 
+  background-position: center;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100%;
+  margin: 0 auto;
+  text-align: center;
+  height: 0;
+  box-sizing: content-box;
+  line-height: 1;
+}
+
+div.electric {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/electric.svg);
+  width: 60%;
+  font-size: 2.4vw;
+  font-style: italic;
+  padding: 8% 12% 12% 0%;
+  height: 100%;
+  color: black;
+}
+
+div.electric span {
+  display: block;
+  font-size: 3vw;
+  font-weight: bold;
+}

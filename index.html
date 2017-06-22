@@ -1,366 +1,383 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>Boom! Shake the browser!</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css">
+    <link rel="stylesheet" href="css/custom.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<h1>Practical reactive programming</h1>
-					<h3>Alexandru Badiu</h3>
-					<h4>BEN Group</h4>
-				</section>
-				<section>
-					<h1>This presentation</h1>
-					<ul>
-						<li>Not going to teach you RP</li>
-						<li>Getting into RP was hard for me</li>
-						<li>It still is</li>
-						<li>Some interesting examples</li>
-					</ul>
-				</section>
-				<section>
-					<h1>Reactive programming</h1>
-					<ul>
-						<li>In computing, reactive programming is an asynchronous programming paradigm oriented around data streams and the propagation of change.</li>
-						<li>Rx = Observables + LINQ + Schedulers</li>
-					</ul>
-				</section>
-				<section>
-					<blockquote>Projects each element of an observable sequence into a new sequence of observable sequences by incorporating the element's index and then transforms an observable sequence of observable sequences into an observable sequence producing values only from the most recent observable sequence.</blockquote>
-				</section>
-				<section data-background="img/confused.png"></section>
-				<section>
-					<blockquote>Reactive programming is programming with asynchronous data streams.</blockquote>
-					<p>From <a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a>.</p>
-				</section>
-				<section>
-					<h1>Data streams</h1>
-					<ul>
-						<li>Data you act on.</li>
-						<li>Big data, small data.</li>
-						<li>Custom events.</li>
-						<li>SMS messages, Twitter updates.</li>
-						<li>Mouse events and UI events.</li>
-						<li>Web sockets</li>
-						<li>Calls to web services.</li>
-					</ul>
-				</section>
-				<section>
-					<img src="img/zmantra.jpg" />
-				</section>
-				<section>
-					<h1>But</h1>
-					<ul>
-						<li>Hype Driven Development.</li>
-						<li>Everything is a nail when you have a hammer.</li>
-					</ul>
-				</section>
-				<section>
-					<h1>Asynchronous</h1>
-					<ul>
-						<li>Set chain of processing once.</li>
-						<li>Process anytime, as needed.</li>
-						<li>Not limited by time or size.</li>
-					</ul>
-				</section>
-				<section>
-					<blockquote>Observables = Collections + Time</blockquote>
-				</section>
-				<section data-background="img/woah.gif"></section>
-				<section>
-					<h1>Autocomplete</h1>
-					<ul>
-						<li>Naive version.</li>
-						<li>User types something.</li>
-						<li>We make a call to a webservice.</li>
-						<li>We show results.</li>
-					</ul>
-				</section>
-				<section>
-					<h1>Autocomplete</h1>
-					<ul>
-						<li>Minimum number of characters.</li>
-						<li>Debounce on type.</li>
-						<li>Caching.</li>
-						<li>Latency.</li>
-					</ul>
-				</section>
-				<section>
-					<h1>Autocomplete</h1>
-					<ul>
-						<li>Key presses are a data stream.</li>
-						<li>We set a chain of operations.</li>
-						<li>Reactive programming!</li>
-					</ul>
-				</section>
-				<section>
-					<h1>EventBus/PubSub</h1>
-					<pre>
-						<code data-trim class="javascript">
-  constructor() {
-    this.subject = new Rx.Subject();
-  }
-
-  subscribe(key, action) {
-    return this.subject
-      .filter(event => event.key === key)
-      .map(event => event.value)
-      .subscribe(action);
-  }
-
-  post(event) {
-    this.subject.onNext(event);
-  }
-						</code>
-					</pre>
-				</section>
-				<section>
-					<h1>EventBus/PubSub</h1>
-					<pre>
-						<code data-trim class="javascript">
-rxEventBus.subscribe('foo', value => {
-  console.log(value);
-});
-
-rxEventBus.subscribe('bar', value => {
-  console.log(value);
-});
-
-rxEventBus.post(new RxEvent('foo', 'Some message'));
-						</code>
-					</pre>
-				</section>
-				<section>
-					<h3>Manipulating Facebook articles</h3>
-				</section>
-				<section>
-					<h3>Downloading paged data</h3>
-				</section>
-				<section>
-					<h1>Other languages</h1>
-				</section>
-				<section>
-					<ul>
-						<li>C/C++</li>
-						<li>Java</li>
-						<li>Objective-C</li>
-						<li>Swift</li>
-						<li>Haxe</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Swift</h3>
-					<pre>
-						<code data-trim class="swift">
-let searchResults = searchBar.rx.text.orEmpty
-	.throttle(0.3, scheduler: MainScheduler.instance)
-	.distinctUntilChanged()
-	.flatMapLatest { query -> Observable<[Repository]> in
-		if query.isEmpty {
-			return .just([])
-		}
-		return searchGitHub(query)
-			.catchErrorJustReturn([])
-	}
-	.observeOn(MainScheduler.instance)
-						</code>
-					</pre>
-				</section>
-				<section>
-					<h3>Objective-C</h3>
-					<pre>
-						<code data-trim class="objective-c">
-override func viewDidLoad() {
-	super.viewDidLoad()
-	
-	addToFavoritesButton.isEnabled = loginStatus.isLoggedIn && !folderView.selection.isEmpty
-	
-	loginStatus.addObserver(self, forKeyPath: #keyPath(LoginStatus.isLoggedIn),
-		options: NSKeyValueObservingOptions.new, context: nil)
-	folderView.addObserver(self, forKeyPath: #keyPath(FolderView.selection),
-		options: NSKeyValueObservingOptions.new, context: nil)
-}
-
-override func observeValue(forKeyPath keyPath: String?, of object: Any?,
-	change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-	switch (keyPath, change?[NSKeyValueChangeKey.newKey]) {
-	case (.some(#keyPath(LoginStatus.isLoggedIn)), .some(let isLoggedIn as Bool)):
-		addToFavoritesButton.isEnabled = isLoggedIn && !folderView.selection.isEmpty
-	case (.some(#keyPath(FolderView.selection)), .some(let selection as Array<FileView>)):
-		addToFavoritesButton.isEnabled = loginStatus.isLoggedIn && !selection.isEmpty
-	default:
-		super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-	}
-}
-
-deinit {
-	loginStatus.removeObserver(self, forKeyPath: #keyPath(LoginStatus.isLoggedIn))
-	folderView.removeObserver(self, forKeyPath: #keyPath(FolderView.selection))
-}
-						</code>
-					</pre>
-				</section>
-				<section>
-					<h3>Objective-C</h3>
-					<pre>
-						<code data-trim class="objective-c">
-override func viewDidLoad() {
-  super.viewDidLoad()
-   
-  self.endpoints += loginStatus.loggedInSignal
-    .combineLatest(second: folderView.selectionSignal)
-     { $0 && !$1.isEmpty }
-    .subscribe(context: .main) {
-      result in
-      self.addToFavoritesButton.isEnabled = 
-        result.value ?? false
-    }
-}
-						</code>
-					</pre>
-				</section>
-				<section data-background="img/arkanoid.jpg"></section>
-				<section>
-					<h1>Game loop</h1>
-					<pre>
-						<code data-trim class="javascript">
-while (true) {
-  processInput();
-  update();
-  render();
-}
-						</code>
-					</pre>
-				</section>
-				<section>
-					<h3>User input</h3>
-					<pre>
-						<code data-trim class="javascript">
-const input$ = Rx.Observable
-  .merge(
-    Rx.Observable.fromEvent(document, 'keydown', event => {
-      switch (event.keyCode) {
-        case PADDLE_KEYS.left:
-          return -1;
-        case PADDLE_KEYS.right:
-          return 1;
-        default:
-          return 0;
-        }
-      }),
-      Rx.Observable.fromEvent(document, 'keyup', event => 0)
-    ).distinctUntilChanged();
-            </code>
-          </pre>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background-image='./img/piggy.gif'>
+          <h1 class="comic-header">Boom! Boom!</h1>
+          <h2 class="comic-subheader">Sha-shake the browser!</h2>
+          <div class="comic-quote">
+            <div class="electric bubble">Alexandru Badiu,<span>BEN Group</span></div>
+          </div>
         </section>
+
         <section>
-					<h3>Paddle</h3>
-					<pre>
-						<code data-trim class="javascript">
-const paddle$ = ticker$
-  .withLatestFrom(input$)
-  .scan((position, [ticker, direction]) => {
-    let next = position + 
-      direction * ticker.deltaTime * PADDLE_SPEED;
-    return Math.max(
-      Math.min(next, canvas.width - PADDLE_WIDTH / 2),
-      PADDLE_WIDTH / 2);
-  }, canvas.width / 2).distinctUntilChanged();
-            </code>
-          </pre>
+          <h1>&lt;bgsound&gt;</h1>
+          <img src='./img/geocities.png' alt='MIDI player' />
+          <ul>
+            <li>IE 4 in 1997.</li>
+            <li>Annoy people by autoplaying MIDI files.</li>
+            <li><a href="https://www.youtube.com/watch?v=vPkwIn5W0IE">General MIDI</a></li>
+            <li><a href="https://www.youtube.com/watch?v=fWnTYkCSZfA">Roland Sound Canvas 55</a></li>
+          </ul>
         </section>
+
         <section>
-					<h3>Ticker</h3>
-					<pre>
-						<code data-trim class="javascript">
-const ticker$ = Rx.Observable
-  .interval(TICKER_INTERVAL,
-    Rx.Scheduler.requestAnimationFrame)
-  .map(() => ({
-    time: Date.now(),
-    deltaTime: null
-  }))
-  .scan(
-    (previous, current) => ({
-      time: current.time,
-      deltaTime: (current.time - previous.time) / 1000
-    })
-  );
-            </code>
-          </pre>
+          <h1>Adobe Flash</h1>
+          <ul>
+            <li>Make some cool stuff.</li>
+            <li><a href="https://www.audiotool.com/">Audiotool</a></li>
+            <li><a href="https://www.youtube.com/watch?v=-qYChwv4uNA">Example</a></li>
+          </ul>
         </section>
+
         <section>
-					<h3>Game</h3>
-					<pre>
-						<code data-trim class="javascript">
-const game = Rx.Observable
-  .combineLatest(ticker$, paddle$, objects$)
-  .sample(TICKER_INTERVAL)
-  .subscribe(update);
+          <h1>HTML5</h1>
+          <ul>
+            <li>The &lt;audio&gt; tag. 2008.</li>
+            <li>Limited, like your home stereo or MP3 player.</li>
+            <li>Put audio, skip, play, pause.</li>
+            <li><a href="http://jplayer.org/">jPlayer</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>But</h1>
+          <ul>
+            <li>Precise timing and multiple sounds.</li>
+            <li>A complex audio pipeline: effects, filters.</li>
+            <li>Visualize data.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Web Audio API</h1>
+          <ul>
+            <li>Modular routing, submixing, live audio input.</li>
+            <li>Sample-accurate scheduled sound playback.</li>
+            <li>Sound generation.</li>
+            <li>Automation of audio parameters.</li>
+            <li>Much more.</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src='img/routing.png' alt='Modular routing' />
+        </section>
+
+        <section>
+          <h1>Is it good?</h1>
+          <ul>
+            <li>Yes.</li>
+            <li>Audiotool is being remade with it.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Can I use it?</h1>
+          <ul>
+            <li>Ish.</li>
+            <li>Only IE Edge.</li>
+            <li>Some things don't work in all the browsers.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>What for?</h1>
+          <ul>
+            <li>Gaming.</li>
+            <li>Cool websites (e.g. Slasher).</li>
+            <li>Music applications.</li>
+            <li>Audio processing.</li>
+            <li>Audio education.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>How?</h1>
+          <pre>
+            <code data-trim data-noescape>
+              window.AudioContext = window.AudioContext
+                || window.webkitAudioContext;
+              const context = new AudioContext();
+
+              // context.destination
             </code>
           </pre>
         </section>
-				<section>
-					<h1>Code</h1>
-          <p><a href="https://manu.ninja/functional-reactive-game-programming-rxjs-breakout">Functional Reactive Game Programming – RxJS Breakout</a></p>
-				</section>
 
-				<section>
-					<h1>ZX Spectrum</h1>
-				</section>
+        <section>
+          <h1>Load a sound</h1>
+          <pre>
+            <code data-trim data-noescape>
+              context.decodeAudioData(req.response, (buffer) => ...);
+            </code>
+          </pre>
+        </section>
 
-				<section>
-					<h1>Links</h1>
-					<ul>
-						<li><a href="https://www.youtube.com/watch?v=XRYN2xt11Ek">Netflix JavaScript Talks - Async JavaScript with Reactive Extensions</a></li>
-						<li><a href="http://queue.acm.org/detail.cfm?id=2169076">Your Mouse is a Database</a></li>
-						<li><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a></li>
-					</ul>
-				</section>
-				<section>
-					<h3>Thanks!</h3>
-				</section>
-			</div>
-		</div>
+        <section>
+          <h1>Play it</h1>
+          <pre>
+            <code data-trim data-noescape>
+              const source = context.createBufferSource();
+              source.buffer = buffer;
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+              source.connect(context.destination);
+              source.start(0);
+            </code>
+          </pre>
+        </section>
 
-		<script>
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				history: true,
-				center: true,
-				progress: true,
+        <section>
+          <h1>It's a graph</h1>
+          <pre>
+            <code data-trim data-noescape>
+              const source = context.createBufferSource();
+              const gainNode = context.createGain();
+              source.buffer = buffer;
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+              source.connect(gainNode);
+              gainNode.connect(context.destination);
+
+              gainNode.gain.value = 0.5;
+
+              source.start(0);
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h1>Schedule</h1>
+          <pre>
+            <code data-trim data-noescape>
+              const playDrumSound = (sound, time) => sound.start(time);
+
+              for (let bar = 0; bar < 2; bar++) {
+                const time = startTime + bar * 16 * sixteenthNoteTime;
+
+                playDrumSound(kick, time);
+                playDrumSound(kick, time + 4 * sixteenthNoteTime);
+                playDrumSound(kick, time + 8 * sixteenthNoteTime);
+                playDrumSound(kick, time + 12 * sixteenthNoteTime);
+
+                playDrumSound(snare, time + 4 * sixteenthNoteTime);
+                playDrumSound(snare, time + 12 * sixteenthNoteTime);
+
+                playDrumSound(chh, time + 1 * sixteenthNoteTime);
+              }
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h1>Demo</h1>
+          <ul>
+            <li>Playing multiple sounds.</li>
+            <li>Controlling volume.</li>
+            <li>Simple drum machine.</li>
+            <li>Automation.</li>
+            <li>Audio effects.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Let's make a synth</h1>
+        </section>
+
+        <section>
+          <h1>We need</h1>
+          <ul>
+            <li>Oscillator.</li>
+            <li>Filter.</li>
+            <li>Envelope.</li>
+            <li>Effect.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Demo</h1>
+          <ul>
+            <li>Simple monosynth.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Web MIDI</h1>
+        </section>
+
+        <section>
+          <blockquote cite="http://midi.org/">
+            &ldquo;the Web-MIDI API is the most significant advancement of MIDI since… MIDI itself!&rdquo;
+          </blockquote>
+        </section>
+
+        <section>
+          <h1>Web MIDI</h1>
+          <ul>
+            <li>Not in all browsers.</li>
+            <li>Control the app via MIDI devices.</li>
+            <li>Control other MIDI devices.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Check for support</h1>
+          <pre>
+            <code data-trim data-noescape>
+if (navigator.requestMIDIAccess) {
+  navigator.requestMIDIAccess()
+    .then(onMIDISuccess, onMIDIFailure);
+} else {
+  alert("No MIDI support in your browser.");
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h1>Get a list of devices</h1>
+          <pre>
+            <code data-trim data-noescape>
+              const inputs = midi.inputs.values();
+              const outputs = midi.outputs.values();
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h1>Listen for events</h1>
+          <pre>
+            <code data-trim data-noescape>
+              input.onmidimessage = (message) => {
+                console.log(message.data);
+              }
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h1>Demo</h1>
+          <ul>
+            <li>Controlling the synth with MIDI.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Scheduling</h1>
+        </section>
+
+        <section>
+          <h1>Scheduling</h1>
+          <ul>
+            <li>Runs in a separate thread.</li>
+            <li>Schedule events in the future.</li>
+            <li>They get executed.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Scheduling</h1>
+          <ul>
+            <li>Web audio clock.</li>
+            <li>setTimeout.</li>
+            <li>requestAnimationFrame.</li>
+            <li>A combination.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Scheduling</h1>
+          <ul>
+            <li>Any AudioParam can be scheduled.</li>
+            <li>E.g. frequency, gain, detune.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Demo</h1>
+          <ul>
+            <li>Groovebox.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Resources</h1>
+          <ul>
+            <li><a href="https://github.com/notthetup/awesome-webaudio">Awesome WebAudio</a></li>
+            <li><a href="https://github.com/alemangui/web-audio-resources">WebAudio Resources</a></li>
+            <li><a href="https://github.com/willianjusten/awesome-audio-visualization">Awesome Audio Visualisation</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Cool libraries</h1>
+          <ul>
+            <li><a href="https://howlerjs.com/">Howler - Audio library for the modern web</a></li>
+            <li><a href="https://tonejs.github.io/">Tone.js - Interactive music framework</a></li>
+            <li><a href="https://github.com/Theodeus/tuna">Audio effects library</a></li>
+            <li><a href="https://github.com/cotejp/webmidi">WebMidi.js</a></li>
+            <li><a href="http://bapjs.org/">BAP - Beat and sequences toolkit</a></li>
+            <li><a href="http://flockingjs.org/">Flocking - Audio synthesis framework</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Other cool stuff</h1>
+          <ul>
+            <li><a href="https://codepen.io/gregh/post/recreating-legendary-8-bit-games-music-with-web-audio-api">Recreating Legendary 8-BIT Games Music</a></li>
+            <li><a href="https://www.google.com/doodles/clara-rockmores-105th-birthday">Clara Rockmore’s 105th Birthday</a></li>
+            <li><a href="http://webaudiodemos.appspot.com/">WebAudio Demos</a></li>
+            <li><a href="https://webaudio.github.io/demo-list/">Web Audio/MIDI List</a></li>
+            <li><a href="https://learningmusic.ableton.com/">Learning Music @ Ableton</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Thanks!</h3>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        center: true,
+        progress: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
 </html>
